@@ -1,0 +1,21 @@
+let payload = {
+   challenge:{
+     name:"",
+     number_of_challenges:"",
+     user_id:"",
+     sound_id:"",
+     created_by:"",
+   }
+ challenge_room:{
+     users:[],
+     total_members:"",
+     current_turn_holder:"",
+
+ },
+  invitation:{
+      type:"",
+      recipients:[],
+      challenge_room:"",
+      created_by:"",
+  } 
+}

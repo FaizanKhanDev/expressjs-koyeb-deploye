@@ -1,0 +1,71 @@
+oNeqUvqqQSleY984
+fullstackwebsitedeveloper3
+mongodb+srv://fullstackwebsitedeveloper3:oNeqUvqqQSleY984@cluster0.7cv9awl.mongodb.net/
+
+mongodb+srv://fullstackwebsitedeveloper3:oNeqUvqqQSleY984@cluster0.7cv9awl.mongodb.net/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import Invitation from "../../models/invitations/invitations.js";
+import InvitationRecipients from "../../models/invitations/invitationRecipents.js";
+
+class InvitationsController {
+    static createInvitation = async (req, res) => {
+        try {
+            const { type, recipients, user_id, is_expired } = req.body;
+            
+            if (!type || !recipients || !user_id || !is_expired) {
+                return res.status(400).json({ message: 'All fields are required' });
+            }   
+            const invitation = new Invitation({
+                type: type,
+                recipients: recipients,
+            });
+
+            // Save the invitation
+            await invitation.save();
+
+            // Iterate over recipients and save each one
+            const recipientsPromises = recipients.map(async (recipient) => {
+                const invitationRecipient = new InvitationRecipients({
+                    user_id: recipient,
+                    invitation_id: invitation._id,
+                    is_expired
+                });
+                return invitationRecipient.save();
+            });
+
+            // Wait for all recipient saves to complete
+            await Promise.all(recipientsPromises);
+
+            res.status(200).json({
+                message: 'Invitation created successfully',
+                data: invitation
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    };
+}
+
+export default InvitationsController;

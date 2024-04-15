@@ -1,0 +1,60 @@
+user aya chalenge create krne thek hai
+
+challenge name dena hai 
+rounds deny hain
+invite send krna hai for friends
+sound select krna hai
+or challenge start krdena hai
+
+challenge group mei
+name 
+number of challenge
+soundid jo select kiya hoga 
+createdby mei user id ajaye same as user id
+user id by ajaye gi users mei
+
+invitation create hoga 
+type challenge 
+and recipients aja ayein gye recipents mei jaa ayein gye 
+invitaion k recievers
+is_expired false
+challenge_room id jye gi
+
+invitationRecipentsSchema
+user_id 
+invitation id
+
+
+
+challenge room mei
+challenge_room_number
+sabse pehly  room create hoga 
+group id aai gi
+users aayein gye jo array relation banaey ga
+total_members bhi store hoga
+users_sounds jo 
+current_turn_holder  jo k user sey relation hogi isky  object relation
+challenge_sound Object relation
+
+challenge_sounds
+
+user
+url
+duration 
+etc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

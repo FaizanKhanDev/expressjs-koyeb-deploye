@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Sounds</title>
+</head>
+<body>
+    <h1>Upload Sounds</h1>
+    <form id="uploadForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        
+        <label for="is_parent">Is Parent:</label><br>
+        <select id="is_parent" name="is_parent" required>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select><br>
+        
+        <label for="price">Price:</label><br>
+        <input type="number" id="price" name="price" required><br>
+        
+        <label for="duration">Duration (seconds):</label><br>
+        <input type="number" id="duration" name="duration" required><br>
+        
+        <label for="is_paid">Is Paid:</label><br>
+        <select id="is_paid" name="is_paid" required>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select><br>
+        
+        <label for="is_active">Is Active:</label><br>
+        <select id="is_active" name="is_active" required>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select><br>
+        
+        <label for="sound">Sound file:</label><br>
+        <input type="file" id="sound" name="sounds" accept=".mp3,.wav" required><br>
+        
+        <button type="button" onclick="uploadSound()">Upload</button>
+    </form>
+
+    <script>
+        function uploadSound() {
+            const form = document.getElementById('uploadForm');
+            const formData = new FormData(form);
+            const parent_id = '66128275ff2e6277075ee5cb'; 
+            formData.append('parent_id', parent_id);
+
+            fetch('http://localhost:8000/api/sounds/uploadSounds', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Handle response data as needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors
+            });
+        }
+    </script>
+</body>
+</html>

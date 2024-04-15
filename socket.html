@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.io Client</title>
+</head>
+<body>
+    <h1>Socket.io Client</h1>
+    <div>
+        <h2>Create Invitation</h2>
+        <label for="type">Type:</label>
+        <input type="text" id="type"><br><br>
+        <label for="recipients">Recipients (comma-separated):</label>
+        <input type="text" id="recipients"><br><br>
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id"><br><br>
+        <label for="is_expired">Is Expired:</label>
+        <input type="checkbox" id="is_expired"><br><br>
+        <button onclick="createInvitation()">Create Invitation</button>
+    </div>
+    <div>
+        <h2>Invitations</h2>
+        <ul id="invitationList"></ul>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        const socket = io('http://localhost:4000'); // Connect to the socket server
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+
+        socket.on('invitation_created', (data) => {
+            alert(data.message);
+        });
+
+        socket.on('invitations', (data) => {
+            const invitationList = document.getElementById('invitationList');
+            invitationList.innerHTML = ''; // Clear existing list
+
+            data.forEach(invitation => {
+                const li = document.createElement('li');
+                li.textContent = `Type: ${invitation.type}, Recipients: ${invitation.recipients.join(', ')}`;
+                invitationList.appendChild(li);
+            });
+        });
+
+        function createInvitation() {
+            const type = document.getElementById('type').value;
+            const recipients = document.getElementById('recipients').value.split(',');
+            const user_id = document.getElementById('user_id').value;
+            const is_expired = document.getElementById('is_expired').checked;
+
+            socket.emit('create_invitation', { type, recipients, user_id, is_expired });
+        }
+
+        // Automatically get invitations when the page loads
+        window.addEventListener('load', () => {
+            socket.emit('get_invitations'); // Fetch invitations when the page loads
+        });
+    </script>
+</body>
+</html>
